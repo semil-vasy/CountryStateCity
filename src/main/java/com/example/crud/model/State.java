@@ -18,8 +18,9 @@ public class State {
 
 	private String stateName;
 	
+//	@ManyToOne(cascade = CascadeType.ALL)
 	@ManyToOne
-	@JoinColumn(name = "country_id" )
+	@JoinColumn(name = "country_id")
 	private Country country;
 	
 }

@@ -30,7 +30,7 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	public CountryDto getCountryById(long countryId) {
 		Country country = countryRepository.findById(countryId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + countryId));
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + countryId));
 		return this.countryToDto(country);
 	}
 
@@ -43,14 +43,14 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	public void deleteCountry(long countryId) {
 		countryRepository.findById(countryId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + countryId));
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + countryId));
 		countryRepository.deleteById(countryId);
 	}
 
 	@Override
 	public CountryDto updateCountry(long countryId, CountryDto countryDto) {
 		Country country = countryRepository.findById(countryId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + countryId));
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + countryId));
 		
 		country.setCountryName(countryDto.getCountryName());
 		

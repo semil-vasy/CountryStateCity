@@ -13,10 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/countries")
+@RequestMapping("/api/country")
 public class CountryController {
 
 	@Autowired
@@ -28,9 +27,9 @@ public class CountryController {
 		return ResponseEntity.ok(countries);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<CountryDto> getCountryById(@PathVariable Long id) {
-		CountryDto countryDto = countryService.getCountryById(id);
+	@GetMapping("/{countryId}")
+	public ResponseEntity<CountryDto> getCountryById(@PathVariable long countryId) {
+		CountryDto countryDto = countryService.getCountryById(countryId);
 		return ResponseEntity.ok(countryDto);
 	}
 
@@ -40,17 +39,15 @@ public class CountryController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedCountry);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<CountryDto> updateCountry(@PathVariable Long countryId, @RequestBody CountryDto countryDto) {
-
+	@PutMapping("/{countryId}")
+	public ResponseEntity<CountryDto> updateCountry(@PathVariable long countryId, @RequestBody CountryDto countryDto) {
 		CountryDto updatedCountry = countryService.updateCountry(countryId, countryDto);
 		return ResponseEntity.ok(updatedCountry);
-
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<ApiResponse> deleteCountry(@PathVariable Long countryId) {
+	@DeleteMapping("/{countryId}")
+	public ResponseEntity<ApiResponse> deleteCountry(@PathVariable long countryId) {
 		countryService.deleteCountry(countryId);
-		return ResponseEntity.ok(new ApiResponse(200, "Success", "COuntry Deleted"));
+		return ResponseEntity.ok(new ApiResponse(200, "Success", "Country Deleted"));
 	}
 }

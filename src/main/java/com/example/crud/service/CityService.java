@@ -5,13 +5,14 @@ import java.util.List;
 import com.example.crud.dto.CityDto;
 
 public interface CityService {
+
 	List<CityDto> getAllCity();
 
 	List<CityDto> getCityeByStateId(long stateId);
 
 	CityDto getCityById(long cityId);
 
-	CityDto addCity(CityDto cityDto);
+	CityDto addCity(long stateId ,CityDto cityDto);
 
 	void deleteCity(long cityId);
 

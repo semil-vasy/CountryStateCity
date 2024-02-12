@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.crud.dto.StateDto;
 import com.example.crud.exception.ResourceNotFoundException;
+import com.example.crud.model.Country;
 import com.example.crud.model.State;
+import com.example.crud.repository.CountryRepository;
 import com.example.crud.repository.StateRepository;
 import com.example.crud.service.StateService;
 
@@ -17,6 +19,9 @@ public class StateServiceImpl implements StateService {
 
 	@Autowired
 	StateRepository stateRepository;
+
+	@Autowired
+	CountryRepository countryRepository;
 
 	@Autowired
 	ModelMapper modelMapper;
@@ -36,12 +41,15 @@ public class StateServiceImpl implements StateService {
 	@Override
 	public StateDto getStateById(long stateId) {
 		State state = stateRepository.findById(stateId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + stateId));
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + stateId));
 		return this.stateToDto(state);
 	}
 
 	@Override
-	public StateDto addState(StateDto stateDto) {
+	public StateDto addState(long countryId, StateDto stateDto) {
+		Country country = countryRepository.findById(countryId)
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No ocuntry id found : " + countryId));
+		stateDto.setCountry(country);
 		State state = stateRepository.save(this.dtoToState(stateDto));
 		return this.stateToDto(state);
 	}
@@ -49,17 +57,17 @@ public class StateServiceImpl implements StateService {
 	@Override
 	public void deleteState(long stateId) {
 		stateRepository.findById(stateId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + stateId));
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + stateId));
 		stateRepository.deleteById(stateId);
 	}
 
 	@Override
 	public StateDto updateState(long stateId, StateDto stateDto) {
 		State state = stateRepository.findById(stateId)
-				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found :" + stateId));
-		
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No id found : " + stateId));
+
 		state.setStateName(stateDto.getStateName());
-		
+
 		State newCountry = stateRepository.save(state);
 		return this.stateToDto(newCountry);
 

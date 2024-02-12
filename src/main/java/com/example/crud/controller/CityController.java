@@ -7,11 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.crud.dto.ApiResponse;
 import com.example.crud.dto.CityDto;
 import com.example.crud.service.CityService;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping("api/city")
 public class CityController {
 
 	@Autowired
@@ -23,31 +24,33 @@ public class CityController {
 		return ResponseEntity.ok(cities);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<CityDto> getCityById(@PathVariable Long id) {
-		CityDto city = cityService.getCityById(id);
+	@GetMapping("/{cityId}")
+	public ResponseEntity<CityDto> getCityById(@PathVariable long cityId) {
+		CityDto city = cityService.getCityById(cityId);
 		return ResponseEntity.ok(city);
 	}
 
-	@PostMapping
-	public ResponseEntity<CityDto> createCity(@RequestBody CityDto city) {
-		CityDto createdCity = cityService.addCity(city);
+	@GetMapping("/state/{stateId}")
+	public ResponseEntity<List<CityDto>> getCityByStateId(@PathVariable Long stateId) {
+		List<CityDto> cities = cityService.getCityeByStateId(stateId);
+		return ResponseEntity.ok(cities);
+	}
+
+	@PostMapping("/state/{stateId}")
+	public ResponseEntity<CityDto> addCity(@PathVariable long stateId, @RequestBody CityDto cityDto) {
+		CityDto createdCity = cityService.addCity(stateId, cityDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdCity);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<CityDto> updateCity(@PathVariable Long id, @RequestBody CityDto city) {
-
-		CityDto updatedCity = cityService.updateCity(id, city);
+	@PutMapping("/{cityId}")
+	public ResponseEntity<CityDto> updateCity(@PathVariable long cityId, @RequestBody CityDto cityDto) {
+		CityDto updatedCity = cityService.updateCity(cityId, cityDto);
 		return ResponseEntity.ok(updatedCity);
-
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
-
-		cityService.deleteCity(id);
-		return ResponseEntity.noContent().build();
-
+	@DeleteMapping("/{cityId}")
+	public ResponseEntity<ApiResponse> deleteCity(@PathVariable long cityId) {
+		cityService.deleteCity(cityId);
+		return ResponseEntity.ok(new ApiResponse(200, "Success", "State deleted Successfully"));
 	}
 }

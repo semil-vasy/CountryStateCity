@@ -12,7 +12,7 @@ public interface StateService {
 
 	StateDto getStateById(long stateId);
 
-	StateDto addState(StateDto stateDto);
+	StateDto addState(long countryId,StateDto stateDto);
 
 	void deleteState(long stateId);
 

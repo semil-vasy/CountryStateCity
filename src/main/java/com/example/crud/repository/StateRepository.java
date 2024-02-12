@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.crud.model.State;
 
 public interface StateRepository extends JpaRepository<State, Long> {
-	@Query(value = "SELECT b FROM State b WHERE b.country_id = :countryId", nativeQuery = true)
+	@Query(value = "SELECT * FROM state s WHERE s.country_id = :countryId", nativeQuery = true)
 	public List<State> findByCountryId(Long countryId);
 }
