@@ -1,12 +1,10 @@
 package com.example.crud.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -18,9 +16,12 @@ public class State {
 
 	private String stateName;
 	
-//	@ManyToOne(cascade = CascadeType.ALL)
 	@ManyToOne
 	@JoinColumn(name = "country_id")
 	private Country country;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<City> city;
 	
 }

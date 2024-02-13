@@ -33,8 +33,10 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public List<CityDto> getCityeByStateId(long stateId) {
-		List<City> cities = cityRepository.findByStateId(stateId);
+	public List<CityDto> getCityByStateId(long stateId) {
+		State state = stateRepository.findById(stateId)
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No state id found : " + stateId));
+		List<City> cities = cityRepository.findByState(state);
 		return cities.stream().map(this::cityToDto).toList();
 	}
 

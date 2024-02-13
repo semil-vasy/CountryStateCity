@@ -8,7 +8,7 @@ public interface CityService {
 
 	List<CityDto> getAllCity();
 
-	List<CityDto> getCityeByStateId(long stateId);
+	List<CityDto> getCityByStateId(long stateId);
 
 	CityDto getCityById(long cityId);
 

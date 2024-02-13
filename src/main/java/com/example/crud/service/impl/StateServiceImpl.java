@@ -34,7 +34,9 @@ public class StateServiceImpl implements StateService {
 
 	@Override
 	public List<StateDto> getStateByCountryId(long countryId) {
-		List<State> states = stateRepository.findByCountryId(countryId);
+		Country country = countryRepository.findById(countryId)
+				.orElseThrow(() -> new ResourceNotFoundException(404, "No ocuntry id found : " + countryId));
+		List<State> states = stateRepository.findByCountry(country);
 		return states.stream().map(this::stateToDto).toList();
 	}
 
@@ -70,7 +72,6 @@ public class StateServiceImpl implements StateService {
 
 		State newCountry = stateRepository.save(state);
 		return this.stateToDto(newCountry);
-
 	}
 
 	State dtoToState(StateDto stateDto) {
